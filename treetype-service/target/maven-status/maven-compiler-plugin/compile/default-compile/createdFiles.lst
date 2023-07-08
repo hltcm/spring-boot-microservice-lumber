@@ -1,0 +1,10 @@
+com\tomruk\treetypeservice\controller\TreeTypeController.class
+com\tomruk\treetypeservice\dto\TreeTypeRequest.class
+com\tomruk\treetypeservice\model\TreeType.class
+com\tomruk\treetypeservice\repository\TreeTypeRepository.class
+com\tomruk\treetypeservice\service\TreeTypeService.class
+com\tomruk\treetypeservice\TreetypeServiceApplication.class
+com\tomruk\treetypeservice\dto\TreeTypeResponse.class
+com\tomruk\treetypeservice\dto\TreeTypeResponse$TreeTypeResponseBuilder.class
+com\tomruk\treetypeservice\dto\TreeTypeRequest$TreeTypeRequestBuilder.class
+com\tomruk\treetypeservice\model\TreeType$TreeTypeBuilder.class

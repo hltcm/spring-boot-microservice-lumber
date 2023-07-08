@@ -1,0 +1,8 @@
+com\tomruk\lumberservice\model\Lumber.class
+com\tomruk\lumberservice\LumberServiceApplication.class
+com\tomruk\lumberservice\repository\LumberShipmentRepository.class
+com\tomruk\lumberservice\controller\LumberShipmentController.class
+com\tomruk\lumberservice\model\LumberShipment.class
+com\tomruk\lumberservice\dto\LumberShipmentRequest.class
+com\tomruk\lumberservice\service\LumberShipmentService.class
+com\tomruk\lumberservice\dto\LumberDto.class
