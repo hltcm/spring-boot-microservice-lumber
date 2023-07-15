@@ -1,6 +1,67 @@
 ---
 version: '3'
 services:
+
+  ## MySql Docker Compose Config
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    expose:
+      - "3307"
+    volumes:
+      - ./volumes/mysql-data:/var/lib/mysql
+
+
+  ## Mongo Docker Compose Config
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    restart: always
+    command: [--auth]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    volumes:
+      - ./volumes/mongo-data:/data/db
+
+
+  ## Keycloak Docker Compose Config
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:21.1.2
+    command: [ "start-dev", "--http-port=8888"]
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    ports:
+      - "8888:8888"
+    expose:
+      - "8888"
+    volumes:
+      - ./volumes/realms/:/opt/keycloak/data/import
+    depends_on:
+      - mysqldb
+
+
+  ## Zookeper Docker Compose Config
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
@@ -8,6 +69,8 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
+
+  ## Kafka Docker Compose Config
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: kafka
@@ -19,7 +82,87 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+
+  ## Zipkin Docker Compose Config
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+
+
+  ## Eureka Service Docker Compose Config
+  discovery-server:
+    container_name: discovery-server
+    image: hltcm/discovery-server:latest
+    pull_policy: always
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+
+  ## Eureka Service Docker Compose Config
+  api-gateway:
+    container_name: api-gateway
+    image: hltcm/api-gateway:latest
+    pull_policy: always
+    ports:
+      - "9090:9090"
+    expose:
+      - "9090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
+    depends_on:
+      - zipkin
+      - discovery-server
+      - keycloak
+
+
+  ## TreeType Service Docker Compose Config
+  treetype-service:
+    container_name: treetype-service
+    image: hltcm/treetype-service:latest
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongo
+      - discovery-server
+      - api-gateway
+      - zipkin
+
+
+  ## Lumber Service Docker Compose Config
+  lumber-service:
+    container_name: lumber-service
+    image: hltcm/lumber-service:latest
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/lumber-service?autoReconnect=true&useSSL=false
+    depends_on:
+      - mysqldb
+      - kafka
+      - zipkin
+      - discovery-server
+      - api-gateway
+
+
+  ## Notification Service Docker Compose Config
+  notification-service:
+    container_name: notification-service
+    image: hltcm/notification-service:latest
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - kafka
+      - discovery-server
+      - api-gateway
