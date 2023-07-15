@@ -1,7 +1,7 @@
-C:\Users\HalitCem\Desktop\Tomruk Microservice\TomrukMicroservice\treetype-service\src\main\java\com\tomruk\treetypeservice\repository\TreeTypeRepository.java
-C:\Users\HalitCem\Desktop\Tomruk Microservice\TomrukMicroservice\treetype-service\src\main\java\com\tomruk\treetypeservice\service\TreeTypeService.java
-C:\Users\HalitCem\Desktop\Tomruk Microservice\TomrukMicroservice\treetype-service\src\main\java\com\tomruk\treetypeservice\TreetypeServiceApplication.java
-C:\Users\HalitCem\Desktop\Tomruk Microservice\TomrukMicroservice\treetype-service\src\main\java\com\tomruk\treetypeservice\controller\TreeTypeController.java
-C:\Users\HalitCem\Desktop\Tomruk Microservice\TomrukMicroservice\treetype-service\src\main\java\com\tomruk\treetypeservice\dto\TreeTypeResponse.java
-C:\Users\HalitCem\Desktop\Tomruk Microservice\TomrukMicroservice\treetype-service\src\main\java\com\tomruk\treetypeservice\model\TreeType.java
-C:\Users\HalitCem\Desktop\Tomruk Microservice\TomrukMicroservice\treetype-service\src\main\java\com\tomruk\treetypeservice\dto\TreeTypeRequest.java
+C:\Users\HalitCem\Desktop\Tomruk Microservice\spring-boot-microservice-lumber\treetype-service\src\main\java\com\tomruk\treetypeservice\dto\TreeTypeRequest.java
+C:\Users\HalitCem\Desktop\Tomruk Microservice\spring-boot-microservice-lumber\treetype-service\src\main\java\com\tomruk\treetypeservice\repository\TreeTypeRepository.java
+C:\Users\HalitCem\Desktop\Tomruk Microservice\spring-boot-microservice-lumber\treetype-service\src\main\java\com\tomruk\treetypeservice\TreeTypeServiceApplication.java
+C:\Users\HalitCem\Desktop\Tomruk Microservice\spring-boot-microservice-lumber\treetype-service\src\main\java\com\tomruk\treetypeservice\service\TreeTypeService.java
+C:\Users\HalitCem\Desktop\Tomruk Microservice\spring-boot-microservice-lumber\treetype-service\src\main\java\com\tomruk\treetypeservice\controller\TreeTypeController.java
+C:\Users\HalitCem\Desktop\Tomruk Microservice\spring-boot-microservice-lumber\treetype-service\src\main\java\com\tomruk\treetypeservice\dto\TreeTypeResponse.java
+C:\Users\HalitCem\Desktop\Tomruk Microservice\spring-boot-microservice-lumber\treetype-service\src\main\java\com\tomruk\treetypeservice\model\TreeType.java
